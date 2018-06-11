@@ -1,27 +1,25 @@
+import { PeopleService } from './../Services/people.service';
 import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  public people: People[];
+  public people: any[];
+  searchQuery: "";
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<People[]>(baseUrl + 'api/people').subscribe(result => {
-      this.people = result;
-    }, error => console.error(error));
+  constructor(private peopleService: PeopleService) {
+
   }
-}
 
+  ngOnInit(){
+    this.peopleService.getPeople().subscribe(people => this.people = people);
+  }
 
-
-interface People {
-  id: number,
-  name: string;
-  address: string
-  age: number;
-  interests: string;
-  picture: string;
+  search(){
+    if(this.searchQuery !== undefined){
+      this.peopleService.search(this.searchQuery).subscribe(people => this.people = people);
+    }
+  }
 }

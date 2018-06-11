@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -28,11 +30,17 @@ namespace PeopleSearch.Controllers
             return mapper.Map<List<Person>, List<PersonResource>>(people);
         }
 
-        [HttpGet("/api/people/:query")]
-        public async Task<IEnumerable<Person>> SearchPeople()
+        [HttpGet("/api/people/search/")]
+        [HttpGet("/api/people/search/{searchString}")]
+        public async Task<IEnumerable<PersonResource>> SearchPeople(string searchString)
         {
-            return await context.People.ToArrayAsync();
-            // Include(m => m.Interests).Include(m => m.Picture).ToListAsync();
+            var people = await context.People.Include(m => m.Interests).Include(m => m.Picture).ToListAsync();
+            
+            if(!string.IsNullOrEmpty(searchString)){
+                people = people.Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            return mapper.Map<List<Person>, List<PersonResource>>(people);
         }
     }
 }

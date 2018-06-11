@@ -1,6 +1,8 @@
+<h1>People</h1>
+
 <form class="form-inline">
-  <input class="form-control" type="search" value="John Smith" id="">
-  <button type="button" class="btn btn-primary">Search
+  <input class="form-control" type="search" placeholder= "John Smith" id="search" [(ngModel)]="searchQuery" name="search" value="">
+  <button type="button" class="btn btn-primary" (click)="search()">Search
     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
   </button>
 </form>
@@ -10,6 +12,7 @@
 <table class='table table-striped' *ngIf="people">
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>Address</th>
       <th>Age</th>
@@ -18,11 +21,13 @@
   </thead>
   <tbody>
     <tr *ngFor="let person of people">
+      <td><img src="/images/{{person.picture.fileName}}" class="thumbnail" style="max-width: 200px"></td>
       <td>{{ person.name }}</td>
       <td>{{ person.address }}</td>
       <td>{{ person.age }}</td>
-      <td *ngFor="let interest of person.interests">
-        {{ interest.name}}</td>
+      <div class="row" *ngFor="let interest of person.interests">
+        <td>{{ interest.name}}</td>
+      </div>
     </tr>
   </tbody>
 </table>
