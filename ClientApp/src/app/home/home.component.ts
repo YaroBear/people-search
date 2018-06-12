@@ -7,19 +7,39 @@ import { Component, Inject } from '@angular/core';
 })
 export class HomeComponent {
   public people: any[];
-  searchQuery: "";
+  searchQuery : string = "";
+  public loading: boolean;
+  slowSearch : boolean = false;
 
   constructor(private peopleService: PeopleService) {
 
   }
 
   ngOnInit(){
-    this.peopleService.getPeople().subscribe(people => this.people = people);
+    this.peopleService.getPeople().subscribe(people => {
+      this.people = people});
   }
 
   search(){
     if(this.searchQuery !== undefined){
-      this.peopleService.search(this.searchQuery).subscribe(people => this.people = people);
+      this.loading = true;
+
+      if(this.slowSearch){
+        this.peopleService.searchSlowly(this.searchQuery).subscribe(people => {
+          this.loading = false;
+          this.people = people});
+      }
+      else{
+        this.peopleService.search(this.searchQuery).subscribe(people => {
+          this.loading = false;
+          this.people = people});
+      }
     }
   }
+
+  setSlowSearch(){
+    this.slowSearch = !this.slowSearch;
+  }
+
+
 }

@@ -8,15 +8,12 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { AddPersonComponent } from './add-person/add-person.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-
-    AddPersonComponent
+    HomeComponent
   ],
   imports: [
     FormsModule,
@@ -24,8 +21,7 @@ import { AddPersonComponent } from './add-person/add-person.component';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'people/new', component: AddPersonComponent}
+      { path: '', component: HomeComponent, pathMatch: 'full' }
     ])
   ],
   providers: [

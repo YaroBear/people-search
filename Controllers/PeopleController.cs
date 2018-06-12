@@ -30,7 +30,7 @@ namespace PeopleSearch.Controllers
             return mapper.Map<List<Person>, List<PersonResource>>(people);
         }
 
-        [HttpGet("/api/people/search/")]
+        [HttpGet("/api/people/search")]
         [HttpGet("/api/people/search/{searchString}")]
         public async Task<IEnumerable<PersonResource>> SearchPeople(string searchString)
         {
@@ -39,6 +39,21 @@ namespace PeopleSearch.Controllers
             if(!string.IsNullOrEmpty(searchString)){
                 people = people.Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
+
+            return mapper.Map<List<Person>, List<PersonResource>>(people);
+        }
+
+        [HttpGet("/api/people/slowSearch")]
+        [HttpGet("/api/people/slowSearch/{searchString}")]
+        public async Task<IEnumerable<PersonResource>> SlowSearchPeople(string searchString)
+        {
+            var people = await context.People.Include(m => m.Interests).Include(m => m.Picture).ToListAsync();
+            
+            if(!string.IsNullOrEmpty(searchString)){
+                people = people.Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            Task.Delay(2000).Wait();
 
             return mapper.Map<List<Person>, List<PersonResource>>(people);
         }

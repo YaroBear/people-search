@@ -5,11 +5,15 @@
   <button type="button" class="btn btn-primary" (click)="search()">Search
     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
   </button>
+  <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="slowSearch" (change)="setSlowSearch()" value="">
+      <label class="form-check-label" for="slowSearch">Simulate Slow Search</label>
+  </div>
 </form>
 
-<p *ngIf="!people"><em>Loading...</em></p>
+<div *ngIf="loading" class="loader"></div>
 
-<table class='table table-striped' *ngIf="people">
+<table class='table table-striped' *ngIf="people && !loading">
   <thead>
     <tr>
       <th></th>

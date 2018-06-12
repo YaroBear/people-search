@@ -8,6 +8,7 @@ namespace PeopleSearch.Mapping
     {
         public MappingProfile()
         {
+            // Domain to API resource
             CreateMap<Person, PersonResource>();
             CreateMap<Interest, InterestResource>();
             CreateMap<Picture, PictureResource>();

@@ -15,6 +15,10 @@ export class PeopleService {
     return this.http.get<People[]>('/api/people/search/' +  searchString)
   }
 
+  searchSlowly(searchString: string){
+    return this.http.get<People[]>('/api/people/slowSearch/' +  searchString)
+  }
+
 }
 
 interface People {
